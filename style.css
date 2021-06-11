@@ -126,6 +126,13 @@ a:hover {
     outline: 1px solid var(--primary-color);
 }
 
+/* FILTER */
+
+.card #filter {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
 /* TABLE */
 
 .card #table table {

@@ -8,30 +8,97 @@ class Book {
 
 // UI Elements
 const UIalert = document.querySelector('#alert');
+
 const UIform = document.querySelector('form');
 const UIinputTitle = document.querySelector('#title');
 const UIinputAuthor = document.querySelector('#author');
 const UIinputISBN = document.querySelector('#isbn');
+
+const UIinputFilterSelector = document.querySelector('#filter-by');
+const UIinputFilter = document.querySelector('#filter-input');
+
 const UItable = document.querySelector('.card table');
 
-// Listener
+// SECONDARY FUNCTIONS
 
-UIform.addEventListener('submit', addBook);
-UItable.addEventListener('click', deleteBook);
+function callAlert(color, message) {
 
+    UIalert.classList.add(color);
+    UIalert.firstElementChild.textContent = message;
+    window.setTimeout(function () {
+        UIalert.classList.remove(color);
+        UIalert.firstElementChild.textContent = '';
+
+    }, 2000);
+}
+
+function getLS() {
+    return JSON.parse(localStorage.getItem('books')) || [];
+}
+
+// MAIN FUNCTIONS
 
 function addBook(e) {
 
     if (UIinputTitle.value === '' || UIinputAuthor.value === '' || UIinputISBN.value === '') {
         callAlert('red', 'Please enter all inputs');
-
     } else {
-
-        callAlert('green', 'Book added');
-
-        // creating book object
         const book = new Book(UIinputTitle.value, UIinputAuthor.value, UIinputISBN.value);
 
+        UI.addBook(book);
+        LS.addBook(book);
+    }
+
+    e.preventDefault();
+}
+
+function deleteBook(e) {
+
+    if (e.target.parentElement.className === 'delete') {
+        UI.deleteBook(e);
+        LS.deleteBook(e);
+    }
+
+    e.preventDefault();
+}
+
+function filterBooks(e) {
+    const textUser = e.target.value.toLowerCase();
+    const filterSelector = UIinputFilterSelector.value;
+    const items = Array.from(UItable.lastElementChild.children);
+
+    items.forEach(function (item) {
+        let textElement;
+
+        if (filterSelector === 'title') {
+            textElement = item.children[0].textContent.toLowerCase();
+        }
+
+        if(filterSelector === 'author') {
+            textElement = item.children[1].textContent.toLowerCase();
+        }
+
+        if(filterSelector === 'isbn') {
+            textElement = item.children[2].textContent.toLowerCase();
+            
+        }
+        if (textElement.indexOf(textUser) != -1) {
+            item.style.display = 'table-row';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+
+}
+
+// DOM AND LOCAL STORAGE FUNCTIONS
+
+const UI = {
+    addBook(book, alert) {
+
+        if (alert == undefined) {
+            callAlert('green', 'Book added');
+        }
 
         // creating elements
         const tr = document.createElement('tr');
@@ -54,32 +121,53 @@ function addBook(e) {
         UItable.lastElementChild.appendChild(tr);
 
         // reset inputs
-
         UIinputTitle.value = '';
         UIinputAuthor.value = '';
         // '' or null?
         UIinputISBN.value = null;
-    }
 
-    e.preventDefault();
-}
+    },
 
-function deleteBook(e) {
-    
-    if(e.target.parentElement.className === 'delete') {
+    deleteBook(e) {
         e.target.parentElement.parentElement.parentElement.remove();
         callAlert('red', 'Book deleted');
+
     }
-    e.preventDefault();
 }
 
-function callAlert(color, message) {
+const LS = {
 
-    UIalert.classList.add(color);
-    UIalert.firstElementChild.textContent = message;
-    window.setTimeout(function () {
-        UIalert.classList.remove(color);
-        UIalert.firstElementChild.textContent = '';
+    booksLS: getLS(),
 
-    }, 2000);
+    addBook(book) {
+        this.booksLS.push(book);
+        localStorage.setItem('books', JSON.stringify(this.booksLS));
+    },
+
+    deleteBook(e) {
+        const isbn = e.target.parentElement.parentElement.parentElement.children[2].textContent;
+
+        this.booksLS.forEach(function (book, index) {
+            if (book.isbn === isbn) {
+                LS.booksLS.splice(index, 1);
+            }
+        });
+        localStorage.setItem('books', JSON.stringify(this.booksLS));
+    },
+
+    reload() {
+
+        LS.booksLS.forEach(function (book) {
+
+            UI.addBook(book, true);
+        });
+    }
 }
+
+
+// Listeners
+
+UIform.addEventListener('submit', addBook);
+UItable.addEventListener('click', deleteBook);
+document.addEventListener('DOMContentLoaded', LS.reload());
+UIinputFilter.addEventListener('keyup', filterBooks);
