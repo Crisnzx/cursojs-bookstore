@@ -42,6 +42,7 @@ function addBook(e) {
 
     if (UIinputTitle.value === '' || UIinputAuthor.value === '' || UIinputISBN.value === '') {
         callAlert('red', 'Please enter all inputs');
+        
     } else {
         const book = new Book(UIinputTitle.value, UIinputAuthor.value, UIinputISBN.value);
 
@@ -169,5 +170,5 @@ const LS = {
 
 UIform.addEventListener('submit', addBook);
 UItable.addEventListener('click', deleteBook);
-document.addEventListener('DOMContentLoaded', LS.reload());
+document.addEventListener('DOMContentLoaded', LS.reload);
 UIinputFilter.addEventListener('keyup', filterBooks);
