@@ -1,0 +1,166 @@
+:root {
+    --primary-color: #19747A;
+    --secondary-color: #24C7B1;
+    --dark-color: #333;
+    --medium-color: #c0c0c0;
+    --light-color: #f4f4f4;
+}
+
+/* GLOBAL */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--primary-color);
+}
+
+.container {
+
+    padding-top: 2rem;
+    
+}
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.3rem;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(184, 0, 0);
+}
+
+a:hover {
+    color: red;
+}
+/* BUTTON */
+
+.button {
+    
+    cursor: pointer;
+    text-transform: uppercase;
+    padding: 0.5rem 2rem;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+}
+
+.b-dark {
+    background-color: var(--dark-color);
+    color: white;
+    transition: background-color 0.1s, color 0.1s ease-in-out;
+}
+
+.b-dark:hover {
+    background-color: var(--medium-color);
+    color: black;
+    
+}
+
+/* ALERT */
+
+#alert {
+    height: 35px;
+    margin-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    border-radius: 5px;
+}
+
+#alert.green {
+    color: white;
+    border: 2px solid darkgreen;
+    background-color: green;
+}
+
+#alert.red {
+    border: 2px solid darkred;
+    color: white;
+    background-color: red;
+}
+
+/* CARD */
+
+.card {
+    background-color: white;
+    margin: 0 auto;
+    padding: 2rem;
+    width: min(90vw,800px);
+    border-radius: 10px;
+}
+
+/* FORM */
+
+.card #form {
+    border-bottom: 1px solid var(--medium-color);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.card #form form .input-group {
+    margin-bottom: 0.5rem;
+}
+
+.card #form form .input-group:nth-child(3) {
+    margin-bottom: 1rem;
+}
+
+.card #form form label {
+    display: block;
+    font-weight: bold;
+}
+
+.card #form form .input-group input {
+    width: 100%;
+    height: 30px;
+    
+}
+
+.card #form form .input-group input:focus {
+    outline: 1px solid var(--primary-color);
+}
+
+/* FILTER */
+
+.card #filter {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+/* TABLE */
+
+.card #table table {
+    width: 100%;
+    border-spacing: 0 0.3rem;
+}
+
+.card #table table th,
+.card #table table td {
+    padding: 0.6rem 1rem;
+}
+
+.card #table table th {
+    background-color: var(--dark-color);
+    color: white;
+    text-align: start;
+    
+}
+
+.card #table table th:first-child {
+    border-radius: 5px 0 0 5px;
+
+}
+
+.card #table table th:last-child {
+    border-radius: 0 5px 5px 0;
+
+}
+.card #table table td {
+    border-bottom: 1px solid var(--medium-color);
+}
